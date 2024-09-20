@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"     # RabbitMQ default messaging port
+      - "15672:15672"   # RabbitMQ management console
+    networks:
+      - app-network-1
+      - app-network-2
+
+  app1:
+    image: franciscomendonca/auto-messaging:latest
+    restart: on-failure
+    environment:
+      - START_WITH_MESSAGE=true   # Start by sending a message
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+    networks:
+      - app-network-1
+
+  app2:
+    image: franciscomendonca/auto-messaging:latest
+    container_name: app2
+    restart: on-failure
+    environment:
+      - START_WITH_MESSAGE=false  # Wait for a message before responding
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+    networks:
+      - app-network-2
+
+networks:
+  app-network-1:
+    driver: bridge
+  app-network-2:
+    driver: bridge
