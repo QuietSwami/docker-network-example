@@ -12,7 +12,7 @@ services:
       - app-network-2
 
   app1:
-    image: franciscomendonca/auto-messaging:latest
+    image: franciscomendonca/auto-messaging:1.0.1
     restart: on-failure
     environment:
       - START_WITH_MESSAGE=true   # Start by sending a message
@@ -23,7 +23,7 @@ services:
       - app-network-1
 
   app2:
-    image: franciscomendonca/auto-messaging:latest
+    image: franciscomendonca/auto-messaging:1.0.1
     container_name: app2
     restart: on-failure
     environment:
