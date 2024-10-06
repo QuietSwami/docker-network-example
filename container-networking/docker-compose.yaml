@@ -36,6 +36,8 @@ services:
 
 networks:
   app-network-1:
-    driver: bridge
+    driver: overlay
+    attachable: true
   app-network-2:
-    driver: bridge
+    driver: overlay
+    attachable: true
